@@ -11,15 +11,16 @@ import java.util.UUID;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Payment implements Resource {
 
-    private final String type;
+    // TODO use enum or at least make static
+    private final String type = "Payment";
+
     private final UUID id;
     private final int version;
     private final UUID organisationId;
     private final Attributes attributes;
 
-    public Payment(String type, UUID id, int version, UUID organisationId, Attributes attributes) {
+    public Payment(UUID id, int version, UUID organisationId, Attributes attributes) {
 
-        this.type = type;
         this.id = id;
         this.version = version;
         this.organisationId = organisationId;

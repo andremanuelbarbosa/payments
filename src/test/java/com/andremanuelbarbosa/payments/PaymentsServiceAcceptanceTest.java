@@ -21,6 +21,7 @@ import ru.yandex.qatools.embed.postgresql.EmbeddedPostgres;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import static ru.yandex.qatools.embed.postgresql.distribution.Version.Main.V9_6;
 
@@ -73,6 +74,8 @@ public class PaymentsServiceAcceptanceTest {
                     ConfigOverride.config("server.adminConnectors[0].port", "0"),
                     ConfigOverride.config("database.url", "jdbc:postgresql://localhost:15432/payments-service"));
 
+    public static final HashMap<String, String> GLOBAL_PARAMS = new HashMap<>();
+
     public static DBI dbi;
     public static Handle handle;
     public static String baseUrl;
@@ -89,6 +92,8 @@ public class PaymentsServiceAcceptanceTest {
 
         DROPWIZARD_APP_RULE.getApplication().run("db", "drop-all", "--confirm-delete-everything", CONFIG_PATH);
         DROPWIZARD_APP_RULE.getApplication().run("db", "migrate", CONFIG_PATH);
+
+        GLOBAL_PARAMS.put("baseUrl", baseUrl);
     }
 
     @AfterClass

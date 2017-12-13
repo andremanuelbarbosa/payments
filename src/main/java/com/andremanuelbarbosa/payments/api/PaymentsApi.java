@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiParam;
 
 import javax.inject.Singleton;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 
 @Singleton
 @Api("Payments")
@@ -51,10 +53,9 @@ public class PaymentsApi extends AbstractApi {
 
     @GET
     @ApiOperation("List a Collection of Payment Resources")
-    public Resources<Payment> getPayments() {
+    public Resources<Payment> getPayments(@Context UriInfo uriInfo) {
 
-        // TODO
-        return null;
+        return new Resources<>(paymentsManager.getPayments(), new Resources.Links(uriInfo.getAbsolutePath().toString()));
     }
 
     @PUT
