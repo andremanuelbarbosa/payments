@@ -15,8 +15,56 @@
             <column name="amount" type="double" defaultValue="0.0">
                 <constraints nullable="false"/>
             </column>
+            <column name="beneficiary_party_account_name" type="varchar(256)">
+                <constraints nullable="true"></constraints>
+            </column>
+            <column name="beneficiary_party_account_number" type="varchar(32)">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="beneficiary_party_account_number_code" type="varchar(16)">
+                <constraints nullable="true"></constraints>
+            </column>
+            <column name="beneficiary_party_account_type" type="int">
+                <constraints nullable="true"></constraints>
+            </column>
+            <column name="beneficiary_party_address" type="varchar(256)">
+                <constraints nullable="true"></constraints>
+            </column>
+            <column name="beneficiary_party_bank_id" type="bigint">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="beneficiary_party_bank_id_code" type="varchar(32)">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="beneficiary_party_name" type="varchar(256)">
+                <constraints nullable="true"></constraints>
+            </column>
             <column name="currency" type="char(3)">
                 <constraints nullable="false"/>
+            </column>
+            <column name="debtor_party_account_name" type="varchar(256)">
+                <constraints nullable="true"></constraints>
+            </column>
+            <column name="debtor_party_account_number" type="varchar(32)">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="debtor_party_account_number_code" type="varchar(16)">
+                <constraints nullable="true"></constraints>
+            </column>
+            <column name="debtor_party_account_type" type="int">
+                <constraints nullable="true"></constraints>
+            </column>
+            <column name="debtor_party_address" type="varchar(256)">
+                <constraints nullable="true"></constraints>
+            </column>
+            <column name="debtor_party_bank_id" type="bigint">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="debtor_party_bank_id_code" type="varchar(32)">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="debtor_party_name" type="varchar(256)">
+                <constraints nullable="true"></constraints>
             </column>
             <column name="end_to_end_reference" type="varchar(256)">
                 <constraints nullable="false"/>
@@ -47,6 +95,30 @@
             </column>
             <column name="scheme_payment_type" type="varchar(32)">
                 <constraints nullable="false"/>
+            </column>
+            <column name="sponsor_party_account_name" type="varchar(256)">
+                <constraints nullable="true"></constraints>
+            </column>
+            <column name="sponsor_party_account_number" type="varchar(32)">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="sponsor_party_account_number_code" type="varchar(16)">
+                <constraints nullable="true"></constraints>
+            </column>
+            <column name="sponsor_party_account_type" type="int">
+                <constraints nullable="true"></constraints>
+            </column>
+            <column name="sponsor_party_address" type="varchar(256)">
+                <constraints nullable="true"></constraints>
+            </column>
+            <column name="sponsor_party_bank_id" type="bigint">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="sponsor_party_bank_id_code" type="varchar(32)">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="sponsor_party_name" type="varchar(256)">
+                <constraints nullable="true"></constraints>
             </column>
         </createTable>
     </changeSet>

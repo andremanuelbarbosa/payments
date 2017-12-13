@@ -1,7 +1,9 @@
 package com.andremanuelbarbosa.payments;
 
 import com.andremanuelbarbosa.payments.api.AbstractApi;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import io.dropwizard.Application;
@@ -46,6 +48,8 @@ public class PaymentsService extends Application<PaymentsServiceConfiguration> {
         });
 
         bootstrap.addBundle(paymentsServiceSwaggerBundle);
+
+        bootstrap.getObjectMapper().registerModule(new ParameterNamesModule(JsonCreator.Mode.PROPERTIES));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.andremanuelbarbosa.payments.domain;
 
 import com.andremanuelbarbosa.payments.resources.Resource;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.joda.time.DateTime;
@@ -19,6 +20,7 @@ public class Payment implements Resource {
     private final UUID organisationId;
     private final Attributes attributes;
 
+//    @JsonCreator
     public Payment(UUID id, int version, UUID organisationId, Attributes attributes) {
 
         this.id = id;
