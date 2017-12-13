@@ -1,6 +1,7 @@
 package com.andremanuelbarbosa.payments;
 
 import com.andremanuelbarbosa.payments.api.AbstractApi;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import io.dropwizard.Application;
@@ -59,10 +60,7 @@ public class PaymentsService extends Application<PaymentsServiceConfiguration> {
             environment.jersey().register(injector.getInstance(apiClass));
         });
 
-//        (new Reflections(AbstractApi.class.getPackage().getName())).getTypesAnnotatedWith(Path.class).stream().forEach(apiClass -> {
-//
-//            environment.jersey().register(injector.getInstance(apiClass));
-//        });
+        environment.getObjectMapper().setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
     }
 
     public static void main(String[] args) throws Exception {

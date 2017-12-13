@@ -1,24 +1,49 @@
 package com.andremanuelbarbosa.payments.api;
 
 import com.andremanuelbarbosa.payments.domain.Payment;
+import com.andremanuelbarbosa.payments.manager.PaymentsManager;
+import com.andremanuelbarbosa.payments.resources.Resources;
+import com.google.inject.Inject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 import javax.inject.Singleton;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import java.util.List;
+import javax.ws.rs.*;
 
 @Singleton
 @Api("Payments")
 @Path("/payments")
 public class PaymentsApi extends AbstractApi {
 
+    private final PaymentsManager paymentsManager;
+
+    @Inject
+    public PaymentsApi(PaymentsManager paymentsManager) {
+
+        this.paymentsManager = paymentsManager;
+    }
+
+    @POST
+    @ApiOperation("Create a Payment Resource")
+    public Payment createPayment(@ApiParam("The Payment Resource") Payment payment) {
+
+        // TODO
+        return null;
+    }
+
+    @DELETE
+    @Path("/{id}")
+    @ApiOperation("Delete a Payment Resource")
+    public void deletePayment(@PathParam("id") @ApiParam("The ID of the Payment") String id) {
+
+        // TODO
+    }
+
     @GET
     @Path("/{id}")
     @ApiOperation("Fetch a Payment Resource")
-    public Payment getPayment(@PathParam("id") String id) {
+    public Payment getPayment(@PathParam("id") @ApiParam("The ID of the Payment") String id) {
 
         // TODO
         return null;
@@ -26,7 +51,16 @@ public class PaymentsApi extends AbstractApi {
 
     @GET
     @ApiOperation("List a Collection of Payment Resources")
-    public List<Payment> getPayments() {
+    public Resources<Payment> getPayments() {
+
+        // TODO
+        return null;
+    }
+
+    @PUT
+    @Path("/{id}")
+    @ApiOperation("Update a Payment Resource")
+    public Payment updatePayment(@PathParam("id") @ApiParam("The ID of the Payment") String id, @ApiParam("The Payment Resource") Payment payment) {
 
         // TODO
         return null;
