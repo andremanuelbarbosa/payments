@@ -18,8 +18,21 @@ public class PaymentsManager {
         this.paymentsDao = paymentsDao;
     }
 
+    private void loadPayment(Payment payment) {
+
+        payment.getAttributes().getChargesInformation().getSenderCharges().addAll(
+                paymentsDao.getPaymentSenderCharges(payment.getId()));
+    }
+
     public List<Payment> getPayments() {
 
-        return paymentsDao.getPayments();
+        final List<Payment> payments = paymentsDao.getPayments();
+
+        payments.forEach(payment -> {
+
+            loadPayment(payment);
+        });
+
+        return payments;
     }
 }

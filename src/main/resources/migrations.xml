@@ -39,6 +39,15 @@
             <column name="beneficiary_party_name" type="varchar(256)">
                 <constraints nullable="true"></constraints>
             </column>
+            <column name="bearer_code" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="receiver_charges_amount" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="receiver_charges_currency" type="char(3)">
+                <constraints nullable="false"/>
+            </column>
             <column name="currency" type="char(3)">
                 <constraints nullable="false"/>
             </column>
@@ -68,6 +77,18 @@
             </column>
             <column name="end_to_end_reference" type="varchar(256)">
                 <constraints nullable="false"/>
+            </column>
+            <column name="fx_contract_reference" type="varchar(32)">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="fx_exchange_rate" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fx_original_amount" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fx_original_currency" type="char(3)">
+                <constraints nullable="false"></constraints>
             </column>
             <column name="numeric_reference" type="bigint">
                 <constraints nullable="false"/>
@@ -121,5 +142,19 @@
                 <constraints nullable="true"></constraints>
             </column>
         </createTable>
+        
+        <createTable tableName="payments_sender_charges">
+            <column name="payment_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="payments_sender_charges_payment_id_fk"/>
+            </column>
+            <column name="amount" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency" type="char(3)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="payments_sender_charges" baseColumnNames="payment_id" constraintName="payments_sender_charges_payment_id_fk"
+                                 referencedTableName="payments" referencedColumnNames="id"/>
     </changeSet>
 </databaseChangeLog>

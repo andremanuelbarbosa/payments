@@ -4,6 +4,10 @@ import com.andremanuelbarbosa.payments.resources.Resource;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.google.common.collect.Lists;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -20,7 +24,6 @@ public class Payment implements Resource {
     private final UUID organisationId;
     private final Attributes attributes;
 
-//    @JsonCreator
     public Payment(UUID id, int version, UUID organisationId, Attributes attributes) {
 
         this.id = id;
@@ -243,6 +246,12 @@ public class Payment implements Resource {
 
                 return name;
             }
+
+            @Override
+            public String toString() {
+
+                return ToStringBuilder.reflectionToString(this);
+            }
         }
 
         public static class ChargesInformation {
@@ -252,6 +261,12 @@ public class Payment implements Resource {
             private final double receiverChargesAmount;
             private final String receiverChargesCurrency;
 
+            public ChargesInformation(String bearerCode, double receiverChargesAmount, String receiverChargesCurrency) {
+
+                this(bearerCode, Lists.newArrayList(), receiverChargesAmount, receiverChargesCurrency);
+            }
+
+            @JsonCreator
             public ChargesInformation(String bearerCode, List<SenderCharge> senderCharges, double receiverChargesAmount, String receiverChargesCurrency) {
 
                 this.bearerCode = bearerCode;
@@ -300,6 +315,12 @@ public class Payment implements Resource {
 
                     return currency;
                 }
+
+                @Override
+                public String toString() {
+
+                    return ToStringBuilder.reflectionToString(this);
+                }
             }
         }
 
@@ -337,6 +358,24 @@ public class Payment implements Resource {
 
                 return originalCurrency;
             }
+
+            @Override
+            public String toString() {
+
+                return ToStringBuilder.reflectionToString(this);
+            }
         }
+
+        @Override
+        public String toString() {
+
+            return ToStringBuilder.reflectionToString(this);
+        }
+    }
+
+    @Override
+    public String toString() {
+
+        return ToStringBuilder.reflectionToString(this);
     }
 }
