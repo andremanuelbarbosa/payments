@@ -149,6 +149,34 @@ public class PaymentsServiceSteps {
         assertEquals(0, ((List) responseHashMap.get(attributeName)).size());
     }
 
+    private boolean assertMapsEquals(Map map1, Map map2) {
+
+        if (map1 == null) {
+
+            return map2 == null;
+        }
+
+        assertEquals(map1.size(), map2.size());
+
+        map1.forEach((name, value) -> {
+
+            assertTrue(map2.containsKey(name));
+
+            final Object valueMap2 = map2.get(name);
+
+            if (value instanceof Map) {
+
+                assertTrue(assertMapsEquals((Map) value, (Map) valueMap2));
+
+            } else {
+
+                assertEquals(value != null ? value.toString() : null, valueMap2 != null ? valueMap2.toString() : null);
+            }
+        });
+
+        return true;
+    }
+
     @Then("^the \"([^\"]*)\" attribute in the Response content contains one element with the Payment \"([^\"]*)\"$")
     public void the_attribute_in_the_Response_content_contains_one_element_with_the_Payment(String attributeName, String paymentId) throws Exception {
 
@@ -164,7 +192,8 @@ public class PaymentsServiceSteps {
 
         payments.forEach(payment -> {
 
-            if (payment.toString().equals(expectedPaymentMap.toString())) {
+//            if (payment.toString().equals(expectedPaymentMap.toString())) {
+            if (assertMapsEquals(expectedPaymentMap, (Map) payment)) {
 
                 expectedPaymentFound.set(true);
 
@@ -206,5 +235,14 @@ public class PaymentsServiceSteps {
         assertTrue(elementHashMap.containsKey(subAttributeName));
 
         assertEquals(getValueWithReplacedParams(subAttributeValue), elementHashMap.get(subAttributeName));
+    }
+
+    @Then("^the Response content contains the Payment \"([^\"]*)\"$")
+    public void the_Response_content_contains_the_Payment(String paymentId) throws Exception {
+
+        final Map expectedPaymentMap = DROPWIZARD_APP_RULE.getObjectMapper().convertValue(loadPaymentFromJson(paymentId), Map.class);
+
+//        assertEquals(expectedPaymentMap.toString(), getResponseHashMap().toString());
+        assertMapsEquals(expectedPaymentMap, getResponseHashMap());
     }
 }

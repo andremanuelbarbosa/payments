@@ -26,6 +26,10 @@ public interface PaymentsDaoJdbi extends PaymentsDao {
     String PAYMENT_SENDER_CHARGE_COLUMNS = "payment_id, amount, currency";
 
     @Override
+    @SqlQuery("SELECT " + PAYMENT_COLUMNS + " FROM payments WHERE id = :id")
+    Payment getPayment(@Bind("id") UUID id);
+
+    @Override
     @SqlQuery("SELECT " + PAYMENT_COLUMNS + " FROM payments")
     List<Payment> getPayments();
 

@@ -12,6 +12,7 @@ import javax.inject.Singleton;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
+import java.util.UUID;
 
 @Singleton
 @Api("Payments")
@@ -37,7 +38,7 @@ public class PaymentsApi extends AbstractApi {
     @DELETE
     @Path("/{id}")
     @ApiOperation("Delete a Payment Resource")
-    public void deletePayment(@PathParam("id") @ApiParam("The ID of the Payment") String id) {
+    public void deletePayment(@PathParam("id") @ApiParam("The ID of the Payment") UUID id) {
 
         // TODO
     }
@@ -45,10 +46,9 @@ public class PaymentsApi extends AbstractApi {
     @GET
     @Path("/{id}")
     @ApiOperation("Fetch a Payment Resource")
-    public Payment getPayment(@PathParam("id") @ApiParam("The ID of the Payment") String id) {
+    public Payment getPayment(@PathParam("id") @ApiParam("The ID of the Payment") UUID id) {
 
-        // TODO
-        return null;
+        return paymentsManager.getPayment(id);
     }
 
     @GET
@@ -61,7 +61,7 @@ public class PaymentsApi extends AbstractApi {
     @PUT
     @Path("/{id}")
     @ApiOperation("Update a Payment Resource")
-    public Payment updatePayment(@PathParam("id") @ApiParam("The ID of the Payment") String id, @ApiParam("The Payment Resource") Payment payment) {
+    public Payment updatePayment(@PathParam("id") @ApiParam("The ID of the Payment") UUID id, @ApiParam("The Payment Resource") Payment payment) {
 
         // TODO
         return null;

@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.util.List;
+import java.util.UUID;
 
 @Singleton
 public class PaymentsManager {
@@ -18,10 +19,17 @@ public class PaymentsManager {
         this.paymentsDao = paymentsDao;
     }
 
-    private void loadPayment(Payment payment) {
+    private Payment loadPayment(Payment payment) {
 
         payment.getAttributes().getChargesInformation().getSenderCharges().addAll(
                 paymentsDao.getPaymentSenderCharges(payment.getId()));
+
+        return payment;
+    }
+
+    public Payment getPayment(UUID id) {
+
+        return loadPayment(paymentsDao.getPayment(id));
     }
 
     public List<Payment> getPayments() {
