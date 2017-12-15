@@ -1,6 +1,6 @@
 package com.andremanuelbarbosa.payments.dao;
 
-import com.andremanuelbarbosa.payments.domain.Payment;
+import com.andremanuelbarbosa.payments.resources.Payment;
 
 import java.util.List;
 import java.util.UUID;

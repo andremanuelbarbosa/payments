@@ -1,7 +1,6 @@
 package com.andremanuelbarbosa.payments;
 
-import com.andremanuelbarbosa.payments.domain.Payment;
-import org.assertj.core.util.Lists;
+import com.andremanuelbarbosa.payments.resources.Payment;
 import org.joda.time.DateTime;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;

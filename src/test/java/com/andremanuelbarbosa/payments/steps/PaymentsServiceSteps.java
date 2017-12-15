@@ -1,7 +1,7 @@
 package com.andremanuelbarbosa.payments.steps;
 
 import com.andremanuelbarbosa.payments.PaymentsServiceIntegrationTest;
-import com.andremanuelbarbosa.payments.domain.Payment;
+import com.andremanuelbarbosa.payments.resources.Payment;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.collect.Maps;
 import cucumber.api.Scenario;

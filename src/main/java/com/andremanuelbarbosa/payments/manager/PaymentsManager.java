@@ -1,7 +1,7 @@
 package com.andremanuelbarbosa.payments.manager;
 
 import com.andremanuelbarbosa.payments.dao.PaymentsDao;
-import com.andremanuelbarbosa.payments.domain.Payment;
+import com.andremanuelbarbosa.payments.resources.Payment;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

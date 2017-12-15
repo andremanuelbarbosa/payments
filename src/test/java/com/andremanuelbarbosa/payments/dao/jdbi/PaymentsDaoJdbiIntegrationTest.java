@@ -2,7 +2,7 @@ package com.andremanuelbarbosa.payments.dao.jdbi;
 
 import com.andremanuelbarbosa.payments.PaymentsServiceIntegrationTest;
 import com.andremanuelbarbosa.payments.PaymentsServiceTest;
-import com.andremanuelbarbosa.payments.domain.Payment;
+import com.andremanuelbarbosa.payments.resources.Payment;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

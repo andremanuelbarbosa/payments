@@ -1,6 +1,6 @@
 package com.andremanuelbarbosa.payments.dao.mapper;
 
-import com.andremanuelbarbosa.payments.domain.Payment;
+import com.andremanuelbarbosa.payments.resources.Payment;
 import org.joda.time.DateTime;
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;

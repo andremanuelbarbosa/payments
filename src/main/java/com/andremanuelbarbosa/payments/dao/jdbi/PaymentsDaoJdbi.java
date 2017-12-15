@@ -3,7 +3,7 @@ package com.andremanuelbarbosa.payments.dao.jdbi;
 import com.andremanuelbarbosa.payments.dao.PaymentsDao;
 import com.andremanuelbarbosa.payments.dao.jdbi.binder.BindCompositeBean;
 import com.andremanuelbarbosa.payments.dao.mapper.PaymentSetMapper;
-import com.andremanuelbarbosa.payments.domain.Payment;
+import com.andremanuelbarbosa.payments.resources.Payment;
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.BindBean;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;

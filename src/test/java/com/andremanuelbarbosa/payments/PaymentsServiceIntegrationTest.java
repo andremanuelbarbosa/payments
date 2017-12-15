@@ -1,12 +1,9 @@
 package com.andremanuelbarbosa.payments;
 
-import com.andremanuelbarbosa.payments.domain.Payment;
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.testing.ConfigOverride;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
-import org.assertj.core.util.Lists;
-import org.joda.time.DateTime;
 import org.junit.*;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
@@ -16,7 +13,6 @@ import ru.yandex.qatools.embed.postgresql.EmbeddedPostgres;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.UUID;
 
 import static ru.yandex.qatools.embed.postgresql.distribution.Version.Main.V9_6;
 

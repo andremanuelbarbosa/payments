@@ -1,4 +1,4 @@
-package com.andremanuelbarbosa.payments.domain;
+package com.andremanuelbarbosa.payments.resources;
 
 import com.andremanuelbarbosa.payments.resources.Resource;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -15,10 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Payment implements Resource {
-
-    // TODO use enum or at least make static
-    private final String type = "Payment";
+public class Payment extends Resource {
 
     private final UUID id;
     private final int version;
@@ -27,15 +24,12 @@ public class Payment implements Resource {
 
     public Payment(UUID id, int version, UUID organisationId, Attributes attributes) {
 
+        super("Payment");
+
         this.id = id;
         this.version = version;
         this.organisationId = organisationId;
         this.attributes = attributes;
-    }
-
-    public String getType() {
-
-        return type;
     }
 
     public UUID getId() {

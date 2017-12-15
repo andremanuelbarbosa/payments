@@ -1,5 +1,16 @@
 package com.andremanuelbarbosa.payments.resources;
 
-public interface Resource {
+public abstract class Resource {
 
+    private final String type;
+
+    protected Resource(String type) {
+
+        this.type = type;
+    }
+
+    public String getType() {
+
+        return type;
+    }
 }

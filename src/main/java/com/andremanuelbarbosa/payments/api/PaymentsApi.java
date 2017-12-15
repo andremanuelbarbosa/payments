@@ -1,6 +1,6 @@
 package com.andremanuelbarbosa.payments.api;
 
-import com.andremanuelbarbosa.payments.domain.Payment;
+import com.andremanuelbarbosa.payments.resources.Payment;
 import com.andremanuelbarbosa.payments.manager.PaymentsManager;
 import com.andremanuelbarbosa.payments.resources.Resources;
 import com.google.inject.Inject;
