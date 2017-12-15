@@ -1,3 +1,4 @@
+@ignore
 Feature: Delete a Payment Resource
 
   Scenario: Payment Resource should be removed when exists in the DB

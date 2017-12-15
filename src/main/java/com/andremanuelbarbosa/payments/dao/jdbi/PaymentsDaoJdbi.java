@@ -51,18 +51,105 @@ public interface PaymentsDaoJdbi extends PaymentsDao {
 
     @Override
     @SqlUpdate("INSERT INTO payments ( " + PAYMENT_COLUMNS + " ) VALUES ( " +
-            ":id, :version, :organisationId, :attributes.amount, :attributes.beneficiaryParty.accountName, :attributes.beneficiaryParty.accountNumber, " +
-            ":attributes.beneficiaryParty.accountNumberCode, :attributes.beneficiaryParty.accountType, :attributes.beneficiaryParty.address, :attributes.beneficiaryParty.bankId, " +
-            ":attributes.beneficiaryParty.bankIdCode, :attributes.beneficiaryParty.name, :attributes.chargesInformation.bearerCode, :attributes.chargesInformation.receiverChargesAmount, :attributes.chargesInformation.receiverChargesCurrency, " +
-            ":attributes.currency, :attributes.debtorParty.accountName, :attributes.debtorParty.accountNumber, :attributes.debtorParty.accountNumberCode, :attributes.debtorParty.accountType, " +
-            ":attributes.debtorParty.address, :attributes.debtorParty.bankId, :attributes.debtorParty.bankIdCode, :attributes.debtorParty.name, :attributes.endToEndReference, " +
-            ":attributes.fx.contractReference, :attributes.fx.exchangeRate, :attributes.fx.originalAmount, :attributes.fx.originalCurrency, :attributes.numericReference, :attributes.paymentId, " +
-            ":attributes.paymentPurpose, :attributes.paymentScheme, :attributes.paymentType, :attributes.processingDate, :attributes.reference, :attributes.schemePaymentSubType, :attributes.schemePaymentType, " +
-            ":attributes.sponsorParty.accountName, :attributes.sponsorParty.accountNumber, :attributes.sponsorParty.accountNumberCode, :attributes.sponsorParty.accountType, " +
-            ":attributes.sponsorParty.address, :attributes.sponsorParty.bankId, :attributes.sponsorParty.bankIdCode, :attributes.sponsorParty.name )")
+            ":id, " +
+            ":version, " +
+            ":organisationId, " +
+            ":attributes.amount, " +
+            ":attributes.beneficiaryParty.accountName, " +
+            ":attributes.beneficiaryParty.accountNumber, " +
+            ":attributes.beneficiaryParty.accountNumberCode, " +
+            ":attributes.beneficiaryParty.accountType, " +
+            ":attributes.beneficiaryParty.address, " +
+            ":attributes.beneficiaryParty.bankId, " +
+            ":attributes.beneficiaryParty.bankIdCode, " +
+            ":attributes.beneficiaryParty.name, " +
+            ":attributes.chargesInformation.bearerCode, " +
+            ":attributes.chargesInformation.receiverChargesAmount, " +
+            ":attributes.chargesInformation.receiverChargesCurrency, " +
+            ":attributes.currency, " +
+            ":attributes.debtorParty.accountName, " +
+            ":attributes.debtorParty.accountNumber, " +
+            ":attributes.debtorParty.accountNumberCode, " +
+            ":attributes.debtorParty.accountType, " +
+            ":attributes.debtorParty.address, " +
+            ":attributes.debtorParty.bankId, " +
+            ":attributes.debtorParty.bankIdCode, " +
+            ":attributes.debtorParty.name, " +
+            ":attributes.endToEndReference, " +
+            ":attributes.fx.contractReference, " +
+            ":attributes.fx.exchangeRate, " +
+            ":attributes.fx.originalAmount, " +
+            ":attributes.fx.originalCurrency, " +
+            ":attributes.numericReference, " +
+            ":attributes.paymentId, " +
+            ":attributes.paymentPurpose, " +
+            ":attributes.paymentScheme, " +
+            ":attributes.paymentType, " +
+            ":attributes.processingDate, " +
+            ":attributes.reference, " +
+            ":attributes.schemePaymentSubType, " +
+            ":attributes.schemePaymentType, " +
+            ":attributes.sponsorParty.accountName, " +
+            ":attributes.sponsorParty.accountNumber, " +
+            ":attributes.sponsorParty.accountNumberCode, " +
+            ":attributes.sponsorParty.accountType, " +
+            ":attributes.sponsorParty.address, " +
+            ":attributes.sponsorParty.bankId, " +
+            ":attributes.sponsorParty.bankIdCode, " +
+            ":attributes.sponsorParty.name )")
     void insertPayment(@BindCompositeBean Payment payment);
 
     @Override
     @SqlUpdate("INSERT INTO payments_sender_charges ( " + PAYMENT_SENDER_CHARGE_COLUMNS + " ) VALUES ( :paymentId, :amount, :currency )")
     void insertPaymentSenderCharges(@Bind("paymentId") UUID paymentId, @BindBean Payment.Attributes.ChargesInformation.SenderCharge senderCharge);
+
+    @Override
+    @SqlUpdate("UPDATE payments SET " +
+            "version = :version, " +
+            "organisation_id = :organisationId, " +
+            "amount = :attributes.amount, " +
+            "beneficiary_party_account_name = :attributes.beneficiaryParty.accountName, " +
+            "beneficiary_party_account_number = :attributes.beneficiaryParty.accountNumber, " +
+            "beneficiary_party_account_number_code = :attributes.beneficiaryParty.accountNumberCode, " +
+            "beneficiary_party_account_type = :attributes.beneficiaryParty.accountType, " +
+            "beneficiary_party_address = :attributes.beneficiaryParty.address, " +
+            "beneficiary_party_bank_id = :attributes.beneficiaryParty.bankId, " +
+            "beneficiary_party_bank_id_code = :attributes.beneficiaryParty.bankIdCode, " +
+            "beneficiary_party_name = :attributes.beneficiaryParty.name, " +
+            "bearer_code = :attributes.chargesInformation.bearerCode, " +
+            "receiver_charges_amount = :attributes.chargesInformation.receiverChargesAmount, " +
+            "receiver_charges_currency = :attributes.chargesInformation.receiverChargesCurrency, " +
+            "currency = :attributes.currency, " +
+            "debtor_party_account_name = :attributes.debtorParty.accountName, " +
+            "debtor_party_account_number = :attributes.debtorParty.accountNumber, " +
+            "debtor_party_account_number_code = :attributes.debtorParty.accountNumberCode, " +
+            "debtor_party_account_type = :attributes.debtorParty.accountType, " +
+            "debtor_party_address = :attributes.debtorParty.address, " +
+            "debtor_party_bank_id = :attributes.debtorParty.bankId, " +
+            "debtor_party_bank_id_code = :attributes.debtorParty.bankIdCode, " +
+            "debtor_party_name = :attributes.debtorParty.name, " +
+            "end_to_end_reference = :attributes.endToEndReference, " +
+            "fx_contract_reference = :attributes.fx.contractReference, " +
+            "fx_exchange_rate = :attributes.fx.exchangeRate, " +
+            "fx_original_amount = :attributes.fx.originalAmount, " +
+            "fx_original_currency = :attributes.fx.originalCurrency, " +
+            "numeric_reference = :attributes.numericReference, " +
+            "payment_id = :attributes.paymentId, " +
+            "payment_purpose = :attributes.paymentPurpose, " +
+            "payment_scheme = :attributes.paymentScheme, " +
+            "payment_type = :attributes.paymentType, " +
+            "processing_date = :attributes.processingDate, " +
+            "reference = :attributes.reference, " +
+            "scheme_payment_sub_type = :attributes.schemePaymentSubType, " +
+            "scheme_payment_type = :attributes.schemePaymentType, " +
+            "sponsor_party_account_name = :attributes.sponsorParty.accountName, " +
+            "sponsor_party_account_number = :attributes.sponsorParty.accountNumber, " +
+            "sponsor_party_account_number_code = :attributes.sponsorParty.accountNumberCode, " +
+            "sponsor_party_account_type = :attributes.sponsorParty.accountType, " +
+            "sponsor_party_address = :attributes.sponsorParty.address, " +
+            "sponsor_party_bank_id = :attributes.sponsorParty.bankId, " +
+            "sponsor_party_bank_id_code = :attributes.sponsorParty.bankIdCode, " +
+            "sponsor_party_name = :attributes.sponsorParty.name " +
+            "WHERE id = :id")
+    void updatePayment(@BindCompositeBean Payment payment);
 }

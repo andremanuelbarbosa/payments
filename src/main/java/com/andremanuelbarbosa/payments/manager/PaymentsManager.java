@@ -19,18 +19,6 @@ public class PaymentsManager {
         this.paymentsDao = paymentsDao;
     }
 
-    public Payment createPayment(Payment payment) {
-
-        paymentsDao.insertPayment(payment);
-
-        payment.getAttributes().getChargesInformation().getSenderCharges().forEach(senderCharge -> {
-
-            paymentsDao.insertPaymentSenderCharges(payment.getId(), senderCharge);
-        });
-
-        return getPayment(payment.getId());
-    }
-
     public void deletePayment(UUID id) {
 
         paymentsDao.deletePaymentSenderCharges(id);
@@ -61,5 +49,31 @@ public class PaymentsManager {
         });
 
         return payments;
+    }
+
+    public Payment createPayment(Payment payment) {
+
+        paymentsDao.insertPayment(payment);
+
+        payment.getAttributes().getChargesInformation().getSenderCharges().forEach(senderCharge -> {
+
+            paymentsDao.insertPaymentSenderCharges(payment.getId(), senderCharge);
+        });
+
+        return getPayment(payment.getId());
+    }
+
+    public Payment updatePayment(Payment payment) {
+
+        paymentsDao.deletePaymentSenderCharges(payment.getId());
+
+        paymentsDao.updatePayment(payment);
+
+        payment.getAttributes().getChargesInformation().getSenderCharges().forEach(senderCharge -> {
+
+            paymentsDao.insertPaymentSenderCharges(payment.getId(), senderCharge);
+        });
+
+        return getPayment(payment.getId());
     }
 }

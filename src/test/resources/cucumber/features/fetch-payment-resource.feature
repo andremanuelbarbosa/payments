@@ -1,3 +1,4 @@
+@ignore
 Feature: Fetch a Payment Resource
 
   Scenario: Payment Resource is returned in the Response when Payment exists in the DB

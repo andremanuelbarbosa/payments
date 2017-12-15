@@ -63,7 +63,6 @@ public class PaymentsApi extends AbstractApi {
     @ApiOperation("Update a Payment Resource")
     public Payment updatePayment(@PathParam("id") @ApiParam("The ID of the Payment") UUID id, @ApiParam("The Payment Resource") Payment payment) {
 
-        // TODO
-        return null;
+        return paymentsManager.updatePayment(payment);
     }
 }

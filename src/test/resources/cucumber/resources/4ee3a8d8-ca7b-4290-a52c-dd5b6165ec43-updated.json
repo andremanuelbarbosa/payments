@@ -1,0 +1,65 @@
+{
+  "type": "Payment",
+  "id": "4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43",
+  "version": 1,
+  "organisation_id": "743d5b63-8e6f-432e-a8fa-c5d8d2ee5fca",
+  "attributes": {
+    "amount": "100.11",
+    "beneficiary_party": {
+      "account_name": "A Owens",
+      "account_number": "31926818",
+      "account_number_code": "BBBN",
+      "account_type": 1,
+      "address": "2 The Beneficiary Localtown SE2",
+      "bank_id": "413000",
+      "bank_id_code": "GBESC",
+      "name": "William Jeremiah Owens"
+    },
+    "charges_information": {
+      "bearer_code": "SHAE",
+      "sender_charges": [
+        {
+          "amount": "6.00",
+          "currency": "EUR"
+        },
+        {
+          "amount": "11.00",
+          "currency": "GBP"
+        }
+      ],
+      "receiver_charges_amount": "2.00",
+      "receiver_charges_currency": "GBP"
+    },
+    "currency": "USD",
+    "debtor_party": {
+      "account_name": "EE Brown Black",
+      "account_number": "GB39XABC10161234567801",
+      "account_number_code": "IBAE",
+      "address": "11 Debtor Crescent Sourcetown NE1",
+      "bank_id": "213301",
+      "bank_id_code": "GBESC",
+      "name": "Emelia Jamie Brown"
+    },
+    "end_to_end_reference": "Wiliam piano Jan",
+    "fx": {
+      "contract_reference": "FX124",
+      "exchange_rate": "1.00000",
+      "original_amount": "100.42",
+      "original_currency": "GBP"
+    },
+    "numeric_reference": "1002011",
+    "payment_id": "123456789012345671",
+    "payment_purpose": "Paying for goods/services and things",
+    "payment_scheme": "FPE",
+    "payment_type": "Debit",
+    "processing_date": "2017-01-19",
+    "reference": "Payment for Em's guitar lessons",
+    "scheme_payment_sub_type": "PhoneBanking",
+    "scheme_payment_type": "DelayedPayment",
+    "sponsor_party": {
+      "account_number": "56781235",
+      "bank_id": "123124",
+      "bank_id_code": "GBESC"
+    }
+  }
+}
