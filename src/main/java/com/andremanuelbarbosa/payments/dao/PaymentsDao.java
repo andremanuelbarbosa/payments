@@ -7,6 +7,10 @@ import java.util.UUID;
 
 public interface PaymentsDao extends Dao {
 
+    void deletePayment(UUID id);
+
+    void deletePaymentSenderCharges(UUID paymentId);
+
     Payment getPayment(UUID id);
 
     List<Payment> getPayments();

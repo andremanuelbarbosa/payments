@@ -29,7 +29,7 @@ public class PaymentsApi extends AbstractApi {
 
     @POST
     @ApiOperation("Create a Payment Resource")
-    public Payment createPayment(@ApiParam("The Payment Resource") Payment payment) {
+    public Payment createPayment(@ApiParam("The Payment Resource") Payment payment) throws Exception {
 
         // TODO
         return null;
@@ -40,7 +40,7 @@ public class PaymentsApi extends AbstractApi {
     @ApiOperation("Delete a Payment Resource")
     public void deletePayment(@PathParam("id") @ApiParam("The ID of the Payment") UUID id) {
 
-        // TODO
+        paymentsManager.deletePayment(id);
     }
 
     @GET

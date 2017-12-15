@@ -11,6 +11,9 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
 import java.util.HashMap;
@@ -29,6 +32,7 @@ import static org.junit.Assert.*;
 public class PaymentsServiceSteps {
 
     private static final String SCENARIO_PARAM_RESPONSE = "response";
+    private static final String SCENARIO_PARAM_REQUEST_CONTENT = "request.content";
     private static final String SCENARIO_PARAM_RESPONSE_CONTENT = "response.content";
 
     private final HashMap<String, Object> scenarioParams = Maps.newHashMap();
@@ -70,10 +74,12 @@ public class PaymentsServiceSteps {
         return payment;
     }
 
-    @Given("^the Payment \"([^\"]*)\" exists in the DB$")
-    public void the_Payment_exists_in_the_DB(String paymentId) throws Exception {
+    @Given("^the Payment \"([^\"]*)\" (exists|does NOT exist) in the DB$")
+    public void the_Payment_exists_in_the_DB(String paymentId, String existsExpression) throws Exception {
 
-        if (getPaymentsCount(paymentId) == 0) {
+        final boolean exists = existsExpression.equals("exists");
+
+        if (exists && getPaymentsCount(paymentId) == 0) {
 
             final Payment payment = loadPaymentFromJson(paymentId);
             final Payment.Attributes attributes = payment.getAttributes();
@@ -106,13 +112,24 @@ public class PaymentsServiceSteps {
             });
         }
 
-        assertEquals(1, getPaymentsCount(paymentId));
+        assertEquals(exists ? 1 : 0, getPaymentsCount(paymentId));
+    }
+
+    @Given("^the Request content contains the Payment \"([^\"]*)\"$")
+    public void the_Request_content_contains_the_Payment(String paymentId) throws Exception {
+
+        scenarioParams.put(SCENARIO_PARAM_REQUEST_CONTENT, loadPaymentFromJson(paymentId));
     }
 
     @When("^the client makes a \"(GET|POST|PUT|DELETE)\" request to \"([^\"]*)\"$")
     public void the_client_makes_a_request_to(String method, String endpoint) throws Exception {
 
-        final Response response = DROPWIZARD_APP_RULE.client().target(baseUrl + endpoint).request().build(method).invoke();
+        final boolean isPutOrPost = method.equals("PUT") || method.equals("POST");
+
+        final Invocation.Builder invocationBuilder = DROPWIZARD_APP_RULE.client().target(baseUrl + endpoint).request();
+
+        final Response response = isPutOrPost ? invocationBuilder.build(method, Entity.entity((Payment) scenarioParams.get(SCENARIO_PARAM_REQUEST_CONTENT), MediaType.APPLICATION_JSON_TYPE)).invoke() :
+                invocationBuilder.build(method).invoke();
 
         final String responseContent = response.readEntity(String.class);
 
@@ -120,6 +137,7 @@ public class PaymentsServiceSteps {
         scenarioParams.put(SCENARIO_PARAM_RESPONSE_CONTENT, responseContent);
 
         scenario.write(method + " " + baseUrl + endpoint + "\n" +
+                (isPutOrPost ? DROPWIZARD_APP_RULE.getObjectMapper().writeValueAsString(scenarioParams.get(SCENARIO_PARAM_REQUEST_CONTENT)) + "\n" : "") +
                 "Status Code: " + response.getStatus() + "\n\n" +
                 responseContent);
     }

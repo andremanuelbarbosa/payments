@@ -19,6 +19,13 @@ public class PaymentsManager {
         this.paymentsDao = paymentsDao;
     }
 
+    public void deletePayment(UUID id) {
+
+        paymentsDao.deletePaymentSenderCharges(id);
+
+        paymentsDao.deletePayment(id);
+    }
+
     private Payment loadPayment(Payment payment) {
 
         payment.getAttributes().getChargesInformation().getSenderCharges().addAll(

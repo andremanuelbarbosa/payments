@@ -3,10 +3,9 @@ package com.andremanuelbarbosa.payments.domain;
 import com.andremanuelbarbosa.payments.resources.Resource;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.collect.Lists;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.joda.time.DateTime;
 
@@ -254,6 +253,7 @@ public class Payment implements Resource {
             }
         }
 
+        @JsonIgnoreProperties(ignoreUnknown = true)
         public static class ChargesInformation {
 
             private final String bearerCode;

@@ -5,6 +5,7 @@ import com.andremanuelbarbosa.payments.dao.mapper.PaymentSetMapper;
 import com.andremanuelbarbosa.payments.domain.Payment;
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
+import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 
 import java.util.List;
@@ -24,6 +25,14 @@ public interface PaymentsDaoJdbi extends PaymentsDao {
             "sponsor_party_address, sponsor_party_bank_id, sponsor_party_bank_id_code, sponsor_party_name";
 
     String PAYMENT_SENDER_CHARGE_COLUMNS = "payment_id, amount, currency";
+
+    @Override
+    @SqlUpdate("DELETE FROM payments WHERE id = :id")
+    void deletePayment(@Bind("id") UUID id);
+
+    @Override
+    @SqlUpdate("DELETE FROM payments_sender_charges WHERE payment_id = :paymentId")
+    void deletePaymentSenderCharges(@Bind("paymentId") UUID paymentId);
 
     @Override
     @SqlQuery("SELECT " + PAYMENT_COLUMNS + " FROM payments WHERE id = :id")
