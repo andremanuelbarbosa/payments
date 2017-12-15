@@ -1,6 +1,5 @@
 package com.andremanuelbarbosa.payments.resources;
 
-import com.andremanuelbarbosa.payments.resources.Resource;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
