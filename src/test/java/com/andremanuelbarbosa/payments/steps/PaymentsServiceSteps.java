@@ -1,5 +1,6 @@
 package com.andremanuelbarbosa.payments.steps;
 
+import com.andremanuelbarbosa.payments.PaymentsServiceIntegrationTest;
 import com.andremanuelbarbosa.payments.domain.Payment;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.collect.Maps;
@@ -14,10 +15,7 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,8 +23,7 @@ import java.util.regex.Pattern;
 import static com.andremanuelbarbosa.payments.PaymentsServiceAcceptanceTest.*;
 import static com.andremanuelbarbosa.payments.dao.jdbi.PaymentsDaoJdbi.PAYMENT_COLUMNS;
 import static com.andremanuelbarbosa.payments.dao.jdbi.PaymentsDaoJdbi.PAYMENT_SENDER_CHARGE_COLUMNS;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class PaymentsServiceSteps {
 
@@ -44,6 +41,8 @@ public class PaymentsServiceSteps {
         this.scenario = scenario;
 
         scenarioParams.clear();
+
+        PaymentsServiceIntegrationTest.cleanUp();
     }
 
     @Given("^there are no Payments in the DB$")
@@ -55,6 +54,11 @@ public class PaymentsServiceSteps {
     private long getPaymentsCount(String id) {
 
         return (long) handle.select("SELECT COUNT(*) AS count FROM payments WHERE id = ?", UUID.fromString(id)).get(0).get("count");
+    }
+
+    private String loadStringFromJson(String id) throws Exception {
+
+        return new Scanner(new File("src/test/resources/cucumber/resources/" + id + ".json")).useDelimiter("\\Z").next();
     }
 
     private Payment loadPaymentFromJson(String id) throws Exception {
@@ -110,8 +114,7 @@ public class PaymentsServiceSteps {
     @Given("^the Request content contains the Payment \"([^\"]*)\"$")
     public void the_Request_content_contains_the_Payment(String paymentId) throws Exception {
 
-        scenarioParams.put(SCENARIO_PARAM_REQUEST_CONTENT,
-                DROPWIZARD_APP_RULE.getObjectMapper().writeValueAsString(loadPaymentFromJson(paymentId)));
+        scenarioParams.put(SCENARIO_PARAM_REQUEST_CONTENT, loadStringFromJson(paymentId));
     }
 
     @When("^the client makes a \"(GET|POST|PUT|DELETE)\" request to \"([^\"]*)\"$")
@@ -247,11 +250,20 @@ public class PaymentsServiceSteps {
         assertEquals(getValueWithReplacedParams(subAttributeValue), elementHashMap.get(subAttributeName));
     }
 
-    @Then("^the Response content contains the Payment \"([^\"]*)\"$")
-    public void the_Response_content_contains_the_Payment(String paymentId) throws Exception {
+    @Then("^the Response content (contains|does NOT contain) the Payment \"([^\"]*)\"$")
+    public void the_Response_content_contains_the_Payment(String containsExpression, String paymentId) throws Exception {
 
-        final Map expectedPaymentMap = DROPWIZARD_APP_RULE.getObjectMapper().convertValue(loadPaymentFromJson(paymentId), Map.class);
+        final boolean contains = containsExpression.equals("contains");
 
-        assertMapsEquals(expectedPaymentMap, getResponseHashMap());
+        if (contains) {
+
+            final Map expectedPaymentMap = DROPWIZARD_APP_RULE.getObjectMapper().convertValue(loadPaymentFromJson(paymentId), Map.class);
+
+            assertMapsEquals(expectedPaymentMap, getResponseHashMap());
+
+        } else {
+
+            assertNull(scenarioParams.get(SCENARIO_PARAM_RESPONSE_CONTENT));
+        }
     }
 }

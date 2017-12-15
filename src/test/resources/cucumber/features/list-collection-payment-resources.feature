@@ -1,4 +1,3 @@
-@ignore
 Feature: List a Collection of Payment Resources
 
   Scenario: No Payment Resources are returned in the Payment Entities data attribute when there are no Payments

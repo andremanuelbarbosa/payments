@@ -28,8 +28,11 @@ public class PaymentsManager {
 
     private Payment loadPayment(Payment payment) {
 
-        payment.getAttributes().getChargesInformation().getSenderCharges().addAll(
-                paymentsDao.getPaymentSenderCharges(payment.getId()));
+        if (payment != null) {
+
+            payment.getAttributes().getChargesInformation().getSenderCharges().addAll(
+                    paymentsDao.getPaymentSenderCharges(payment.getId()));
+        }
 
         return payment;
     }
@@ -51,7 +54,7 @@ public class PaymentsManager {
         return payments;
     }
 
-    public Payment createPayment(Payment payment) {
+    public Payment insertPayment(Payment payment) {
 
         paymentsDao.insertPayment(payment);
 

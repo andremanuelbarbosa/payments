@@ -93,15 +93,20 @@ public abstract class PaymentsServiceIntegrationTest {
         EMBEDDED_POSTGRES.stop();
     }
 
+    public static void cleanUp() {
+
+        handle.update("DELETE FROM payments_sender_charges");
+        handle.update("DELETE FROM payments");
+    }
+
     @Before
     public void setUp() {
 
+        cleanUp();
     }
 
     @After
     public void tearDown() {
 
-        handle.update("DELETE FROM payments_sender_charges");
-        handle.update("DELETE FROM payments");
     }
 }

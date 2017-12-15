@@ -28,27 +28,32 @@ public class PaymentsApi extends AbstractApi {
         this.paymentsManager = paymentsManager;
     }
 
-    @POST
-    @ApiOperation("Create a Payment Resource")
-    public Response createPayment(@ApiParam("The Payment Resource") Payment payment) throws Exception {
-
-        return Response.status(Response.Status.CREATED).entity(paymentsManager.createPayment(payment)).build();
-    }
-
     @DELETE
     @Path("/{id}")
     @ApiOperation("Delete a Payment Resource")
-    public void deletePayment(@PathParam("id") @ApiParam("The ID of the Payment") UUID id) {
+    public Response deletePayment(@PathParam("id") @ApiParam("The ID of the Payment") UUID id) {
+
+        if (paymentsManager.getPayment(id) == null) {
+
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
 
         paymentsManager.deletePayment(id);
+
+        return Response.noContent().build();
     }
 
     @GET
     @Path("/{id}")
     @ApiOperation("Fetch a Payment Resource")
-    public Payment getPayment(@PathParam("id") @ApiParam("The ID of the Payment") UUID id) {
+    public Response getPayment(@PathParam("id") @ApiParam("The ID of the Payment") UUID id) {
 
-        return paymentsManager.getPayment(id);
+        if (paymentsManager.getPayment(id) == null) {
+
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(paymentsManager.getPayment(id)).build();
     }
 
     @GET
@@ -58,11 +63,33 @@ public class PaymentsApi extends AbstractApi {
         return new Resources<>(paymentsManager.getPayments(), new Resources.Links(uriInfo.getAbsolutePath().toString()));
     }
 
+    @POST
+    @ApiOperation("Create a Payment Resource")
+    public Response insertPayment(@ApiParam("The Payment Resource") Payment payment) {
+
+        if (paymentsManager.getPayment(payment.getId()) != null) {
+
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        return Response.status(Response.Status.CREATED).entity(paymentsManager.insertPayment(payment)).build();
+    }
+
     @PUT
     @Path("/{id}")
     @ApiOperation("Update a Payment Resource")
-    public Payment updatePayment(@PathParam("id") @ApiParam("The ID of the Payment") UUID id, @ApiParam("The Payment Resource") Payment payment) {
+    public Response updatePayment(@PathParam("id") @ApiParam("The ID of the Payment") UUID id, @ApiParam("The Payment Resource") Payment payment) {
 
-        return paymentsManager.updatePayment(payment);
+        if (paymentsManager.getPayment(id) == null) {
+
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        if (!id.equals(payment.getId())) {
+
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        return Response.ok(paymentsManager.updatePayment(payment)).build();
     }
 }
