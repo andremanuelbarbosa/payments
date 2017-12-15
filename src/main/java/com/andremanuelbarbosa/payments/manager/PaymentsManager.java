@@ -19,6 +19,18 @@ public class PaymentsManager {
         this.paymentsDao = paymentsDao;
     }
 
+    public Payment createPayment(Payment payment) {
+
+        paymentsDao.insertPayment(payment);
+
+        payment.getAttributes().getChargesInformation().getSenderCharges().forEach(senderCharge -> {
+
+            paymentsDao.insertPaymentSenderCharges(payment.getId(), senderCharge);
+        });
+
+        return getPayment(payment.getId());
+    }
+
     public void deletePayment(UUID id) {
 
         paymentsDao.deletePaymentSenderCharges(id);

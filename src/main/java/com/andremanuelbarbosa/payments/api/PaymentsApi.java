@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiParam;
 import javax.inject.Singleton;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.UUID;
 
@@ -29,10 +30,9 @@ public class PaymentsApi extends AbstractApi {
 
     @POST
     @ApiOperation("Create a Payment Resource")
-    public Payment createPayment(@ApiParam("The Payment Resource") Payment payment) throws Exception {
+    public Response createPayment(@ApiParam("The Payment Resource") Payment payment) throws Exception {
 
-        // TODO
-        return null;
+        return Response.status(Response.Status.CREATED).entity(paymentsManager.createPayment(payment)).build();
     }
 
     @DELETE

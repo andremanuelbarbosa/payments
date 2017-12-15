@@ -16,4 +16,8 @@ public interface PaymentsDao extends Dao {
     List<Payment> getPayments();
 
     List<Payment.Attributes.ChargesInformation.SenderCharge> getPaymentSenderCharges(UUID paymentId);
+
+    void insertPayment(Payment payment);
+
+    void insertPaymentSenderCharges(UUID paymentId, Payment.Attributes.ChargesInformation.SenderCharge senderCharge);
 }

@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.joda.time.DateTime;
 
@@ -247,6 +249,18 @@ public class Payment implements Resource {
             }
 
             @Override
+            public boolean equals(Object o) {
+
+                return EqualsBuilder.reflectionEquals(this, o);
+            }
+
+            @Override
+            public int hashCode() {
+
+                return HashCodeBuilder.reflectionHashCode(this);
+            }
+
+            @Override
             public String toString() {
 
                 return ToStringBuilder.reflectionToString(this);
@@ -317,10 +331,40 @@ public class Payment implements Resource {
                 }
 
                 @Override
+                public boolean equals(Object o) {
+
+                    return EqualsBuilder.reflectionEquals(this, o);
+                }
+
+                @Override
+                public int hashCode() {
+
+                    return HashCodeBuilder.reflectionHashCode(this);
+                }
+
+                @Override
                 public String toString() {
 
                     return ToStringBuilder.reflectionToString(this);
                 }
+            }
+
+            @Override
+            public boolean equals(Object o) {
+
+                return EqualsBuilder.reflectionEquals(this, o);
+            }
+
+            @Override
+            public int hashCode() {
+
+                return HashCodeBuilder.reflectionHashCode(this);
+            }
+
+            @Override
+            public String toString() {
+
+                return ToStringBuilder.reflectionToString(this);
             }
         }
 
@@ -360,6 +404,18 @@ public class Payment implements Resource {
             }
 
             @Override
+            public boolean equals(Object o) {
+
+                return EqualsBuilder.reflectionEquals(this, o);
+            }
+
+            @Override
+            public int hashCode() {
+
+                return HashCodeBuilder.reflectionHashCode(this);
+            }
+
+            @Override
             public String toString() {
 
                 return ToStringBuilder.reflectionToString(this);
@@ -367,10 +423,34 @@ public class Payment implements Resource {
         }
 
         @Override
+        public boolean equals(Object o) {
+
+            return EqualsBuilder.reflectionEquals(this, o);
+        }
+
+        @Override
+        public int hashCode() {
+
+            return HashCodeBuilder.reflectionHashCode(this);
+        }
+
+        @Override
         public String toString() {
 
             return ToStringBuilder.reflectionToString(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        return EqualsBuilder.reflectionEquals(this, o);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return HashCodeBuilder.reflectionHashCode(this);
     }
 
     @Override

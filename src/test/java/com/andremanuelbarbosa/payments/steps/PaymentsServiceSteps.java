@@ -1,11 +1,9 @@
 package com.andremanuelbarbosa.payments.steps;
 
-import com.andremanuelbarbosa.payments.dao.jdbi.PaymentsDaoJdbi;
 import com.andremanuelbarbosa.payments.domain.Payment;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.collect.Maps;
 import cucumber.api.Scenario;
-import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -27,7 +25,8 @@ import java.util.regex.Pattern;
 import static com.andremanuelbarbosa.payments.PaymentsServiceAcceptanceTest.*;
 import static com.andremanuelbarbosa.payments.dao.jdbi.PaymentsDaoJdbi.PAYMENT_COLUMNS;
 import static com.andremanuelbarbosa.payments.dao.jdbi.PaymentsDaoJdbi.PAYMENT_SENDER_CHARGE_COLUMNS;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class PaymentsServiceSteps {
 
@@ -45,13 +44,6 @@ public class PaymentsServiceSteps {
         this.scenario = scenario;
 
         scenarioParams.clear();
-    }
-
-    @After
-    public void tearDown(Scenario scenario) {
-
-        handle.update("DELETE FROM payments_sender_charges");
-        handle.update("DELETE FROM payments");
     }
 
     @Given("^there are no Payments in the DB$")
@@ -118,7 +110,8 @@ public class PaymentsServiceSteps {
     @Given("^the Request content contains the Payment \"([^\"]*)\"$")
     public void the_Request_content_contains_the_Payment(String paymentId) throws Exception {
 
-        scenarioParams.put(SCENARIO_PARAM_REQUEST_CONTENT, loadPaymentFromJson(paymentId));
+        scenarioParams.put(SCENARIO_PARAM_REQUEST_CONTENT,
+                DROPWIZARD_APP_RULE.getObjectMapper().writeValueAsString(loadPaymentFromJson(paymentId)));
     }
 
     @When("^the client makes a \"(GET|POST|PUT|DELETE)\" request to \"([^\"]*)\"$")
@@ -128,8 +121,8 @@ public class PaymentsServiceSteps {
 
         final Invocation.Builder invocationBuilder = DROPWIZARD_APP_RULE.client().target(baseUrl + endpoint).request();
 
-        final Response response = isPutOrPost ? invocationBuilder.build(method, Entity.entity((Payment) scenarioParams.get(SCENARIO_PARAM_REQUEST_CONTENT), MediaType.APPLICATION_JSON_TYPE)).invoke() :
-                invocationBuilder.build(method).invoke();
+        final Response response = !isPutOrPost ? invocationBuilder.build(method).invoke() :
+                invocationBuilder.build(method, Entity.entity(scenarioParams.get(SCENARIO_PARAM_REQUEST_CONTENT).toString(), MediaType.APPLICATION_JSON_TYPE)).invoke();
 
         final String responseContent = response.readEntity(String.class);
 
@@ -137,7 +130,7 @@ public class PaymentsServiceSteps {
         scenarioParams.put(SCENARIO_PARAM_RESPONSE_CONTENT, responseContent);
 
         scenario.write(method + " " + baseUrl + endpoint + "\n" +
-                (isPutOrPost ? DROPWIZARD_APP_RULE.getObjectMapper().writeValueAsString(scenarioParams.get(SCENARIO_PARAM_REQUEST_CONTENT)) + "\n" : "") +
+                (isPutOrPost ? scenarioParams.get(SCENARIO_PARAM_REQUEST_CONTENT).toString() + "\n" : "") +
                 "Status Code: " + response.getStatus() + "\n\n" +
                 responseContent);
     }
@@ -210,7 +203,6 @@ public class PaymentsServiceSteps {
 
         payments.forEach(payment -> {
 
-//            if (payment.toString().equals(expectedPaymentMap.toString())) {
             if (assertMapsEquals(expectedPaymentMap, (Map) payment)) {
 
                 expectedPaymentFound.set(true);
@@ -260,7 +252,6 @@ public class PaymentsServiceSteps {
 
         final Map expectedPaymentMap = DROPWIZARD_APP_RULE.getObjectMapper().convertValue(loadPaymentFromJson(paymentId), Map.class);
 
-//        assertEquals(expectedPaymentMap.toString(), getResponseHashMap().toString());
         assertMapsEquals(expectedPaymentMap, getResponseHashMap());
     }
 }

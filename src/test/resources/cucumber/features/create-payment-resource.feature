@@ -1,4 +1,3 @@
-@ignore
 Feature: Create a Payment Resource
 
   Scenario: Payment Resource is created and returned in the Response

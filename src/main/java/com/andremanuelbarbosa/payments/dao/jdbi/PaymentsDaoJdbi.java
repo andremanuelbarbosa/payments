@@ -1,9 +1,11 @@
 package com.andremanuelbarbosa.payments.dao.jdbi;
 
 import com.andremanuelbarbosa.payments.dao.PaymentsDao;
+import com.andremanuelbarbosa.payments.dao.jdbi.binder.BindCompositeBean;
 import com.andremanuelbarbosa.payments.dao.mapper.PaymentSetMapper;
 import com.andremanuelbarbosa.payments.domain.Payment;
 import org.skife.jdbi.v2.sqlobject.Bind;
+import org.skife.jdbi.v2.sqlobject.BindBean;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
@@ -46,4 +48,21 @@ public interface PaymentsDaoJdbi extends PaymentsDao {
     @RegisterMapper(PaymentSetMapper.SenderChargeSetMapper.class)
     @SqlQuery("SELECT " + PAYMENT_SENDER_CHARGE_COLUMNS + " FROM payments_sender_charges WHERE payment_id = :paymentId")
     List<Payment.Attributes.ChargesInformation.SenderCharge> getPaymentSenderCharges(@Bind("paymentId") UUID paymentId);
+
+    @Override
+    @SqlUpdate("INSERT INTO payments ( " + PAYMENT_COLUMNS + " ) VALUES ( " +
+            ":id, :version, :organisationId, :attributes.amount, :attributes.beneficiaryParty.accountName, :attributes.beneficiaryParty.accountNumber, " +
+            ":attributes.beneficiaryParty.accountNumberCode, :attributes.beneficiaryParty.accountType, :attributes.beneficiaryParty.address, :attributes.beneficiaryParty.bankId, " +
+            ":attributes.beneficiaryParty.bankIdCode, :attributes.beneficiaryParty.name, :attributes.chargesInformation.bearerCode, :attributes.chargesInformation.receiverChargesAmount, :attributes.chargesInformation.receiverChargesCurrency, " +
+            ":attributes.currency, :attributes.debtorParty.accountName, :attributes.debtorParty.accountNumber, :attributes.debtorParty.accountNumberCode, :attributes.debtorParty.accountType, " +
+            ":attributes.debtorParty.address, :attributes.debtorParty.bankId, :attributes.debtorParty.bankIdCode, :attributes.debtorParty.name, :attributes.endToEndReference, " +
+            ":attributes.fx.contractReference, :attributes.fx.exchangeRate, :attributes.fx.originalAmount, :attributes.fx.originalCurrency, :attributes.numericReference, :attributes.paymentId, " +
+            ":attributes.paymentPurpose, :attributes.paymentScheme, :attributes.paymentType, :attributes.processingDate, :attributes.reference, :attributes.schemePaymentSubType, :attributes.schemePaymentType, " +
+            ":attributes.sponsorParty.accountName, :attributes.sponsorParty.accountNumber, :attributes.sponsorParty.accountNumberCode, :attributes.sponsorParty.accountType, " +
+            ":attributes.sponsorParty.address, :attributes.sponsorParty.bankId, :attributes.sponsorParty.bankIdCode, :attributes.sponsorParty.name )")
+    void insertPayment(@BindCompositeBean Payment payment);
+
+    @Override
+    @SqlUpdate("INSERT INTO payments_sender_charges ( " + PAYMENT_SENDER_CHARGE_COLUMNS + " ) VALUES ( :paymentId, :amount, :currency )")
+    void insertPaymentSenderCharges(@Bind("paymentId") UUID paymentId, @BindBean Payment.Attributes.ChargesInformation.SenderCharge senderCharge);
 }
