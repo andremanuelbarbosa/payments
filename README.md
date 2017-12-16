@@ -71,3 +71,5 @@ database:
 ```
 
 I have been using Postgres as the underlying DB but the service should work with different vendors too like Oracle or MySQL. Just change the configuration to the appropriate JDBC URL.
+
+The default URL for the application is http://localhost:8080/api and you should see the Swagger UI when accessing this URL.
