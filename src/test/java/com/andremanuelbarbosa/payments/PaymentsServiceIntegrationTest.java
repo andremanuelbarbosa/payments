@@ -2,7 +2,6 @@ package com.andremanuelbarbosa.payments;
 
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.testing.ConfigOverride;
-import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.junit.*;
 import org.skife.jdbi.v2.DBI;
@@ -11,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.yandex.qatools.embed.postgresql.EmbeddedPostgres;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -38,16 +38,12 @@ public abstract class PaymentsServiceIntegrationTest {
             @Override
             public void run() {
 
-                LOGGER.info("Terminating the Payments Service Acceptance Tests...");
-
                 EMBEDDED_POSTGRES.stop();
-
-                LOGGER.info("The Payments Service Acceptance Tests have terminated.");
             }
         });
     }
 
-    private static final String CONFIG_PATH = ResourceHelpers.resourceFilePath("conf.yml");
+    private static final String CONFIG_PATH = new File("src/main/resources/conf.yml").getAbsolutePath();
 
     @ClassRule
     public static final DropwizardAppRule<PaymentsServiceConfiguration> DROPWIZARD_APP_RULE =
@@ -65,6 +61,8 @@ public abstract class PaymentsServiceIntegrationTest {
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
 
+        LOGGER.info("Initializing the Application configuration and DB...");
+
         dbi = (new DBIFactory()).build(DROPWIZARD_APP_RULE.getEnvironment(),
                 DROPWIZARD_APP_RULE.getConfiguration().getDataSourceFactory(), PaymentsServiceAcceptanceTest.class.getSimpleName());
 
@@ -76,6 +74,8 @@ public abstract class PaymentsServiceIntegrationTest {
         DROPWIZARD_APP_RULE.getApplication().run("db", "migrate", CONFIG_PATH);
 
         GLOBAL_PARAMS.put("baseUrl", baseUrl);
+
+        LOGGER.info("The Application and DB have been initialized.");
     }
 
     @AfterClass
