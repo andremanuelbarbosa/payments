@@ -4,7 +4,7 @@
 
 ### API
 ![API Design](
-https://github.com/andremanuelbarbosa/payment-services/raw/master/src/test/resources/images/api-design.png)
+https://github.com/andremanuelbarbosa/payments-service/raw/master/src/test/resources/images/api-design.png)
 
 ### Frameworks
 * DropWizard - multi purpose framework for building web applications (in particular web services) which includes the following useful components:  
@@ -45,7 +45,7 @@ A Cucumber BDD feature file has been created for each of the 5 features (API end
 These tests are executed as part of the build or can also be triggered by running the PaymentServicesAcceptanceTest class. Once the tests are executed, there should be a Cucumber report on "/target/cucumber/index.html" on the project folder which contains the detailed outcome for each feature/scenario and also the associated steps. I have also included an improved version of this report which is generated under the "targer/cucumber-html-reports" folder, which contains an overview of the features/scenarios/steps and looks like this:
 
 ![Cucumber HTML Reports](
-https://github.com/andremanuelbarbosa/payment-services/raw/master/src/test/resources/images/cucumber-html-reports.png)
+https://github.com/andremanuelbarbosa/payments-service/raw/master/src/test/resources/images/cucumber-html-reports.png)
 
 ## Usage
 As the project is using Maven, just do "mvn clean install package" to build the application and then run the generated jar as "java -jar payment-service-1.0.0-SNAPSHOT.jar server [path_to_conf_file.yml]". An example YAML config file would like:
